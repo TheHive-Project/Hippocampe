@@ -1,0 +1,313 @@
+#!/usr/bin/env python
+# -*- coding: utf8 -*-
+
+#Hippocampe: Intel aggregator
+#@author 2015 CERT-BDF <cert@banque-france.fr>
+#@see The GNU Public License (GPL)
+#
+#This file is part of Hippocampe.
+#
+#Hippocampe is free software; you can redistribute it and/or modify
+#it under the terms of the GNU General Public License as published by
+#the Free Software Foundation; either version 3 of the License, or
+#(at your option) any later version.
+#
+#Hippocampe is distributed in the hope that it will be useful, but
+#WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+#or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+#for more details.
+#
+#You should have received a copy of the GNU General Public License along
+#with Hippocampe; if not, write to the Free Software Foundation, Inc.,
+#59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+#or see <http://www.gnu.org/licenses/>.
+#
+
+"""
+	This module contains the shadowBook process.
+"""
+
+from configparser import ConfigParser, NoOptionError, NoSectionError
+from Config import Config
+from IndexNew import IndexNew
+from NewIoc import NewIoc
+from IndexSource import IndexSource
+from IndexIOC import IndexIOC
+from Source import Source
+from Ioc import Ioc
+import os
+import time
+import requests
+import chardet
+import itertools
+import csv
+import multiprocessing
+import sys
+import traceback
+from multiprocessing.dummy import Pool as ThreadPool
+from copy import deepcopy
+from functools import partial
+
+from pprint import pprint 
+
+nbThreadPerCPU = 5
+
+install_dir = os.path.dirname(os.path.abspath(__file__)) + '/../../'
+confPath = install_dir + 'conf/'
+pathModule = install_dir + 'modules/logs'
+sys.path.insert(0, pathModule)
+from log import defineLogger
+import os
+
+logPath = install_dir + 'logs/shadowbook.log'
+logger = defineLogger('app.shadowbook', logPath)
+
+def processIoc(listSessions, cfgPath):
+	
+	#isoling the confName from the path
+	confName = os.path.basename(os.path.normpath(cfgPath))
+	#JSON doc resuming the indexing process
+	processResult = dict()
+	processResult[confName] = dict()
+	processResult[confName]['error'] = list()
+
+	#Retrieving configuration
+	try:
+		cfg = Config(cfgPath)
+	
+		#Indexing source
+		source = Source(cfg)
+		indexSource = IndexSource(source)
+		indexSource.forgeDocMappings()
+		indexSource.create()
+		source.forgeDocSearch()
+		nbMatch = source.search()
+		if (nbMatch == 0):
+			source.setFirstQuery(time.strftime("%Y%m%dT%H%M%S%z"))
+			source.setLastQuery(time.strftime("%Y%m%dT%H%M%S%z"))
+			source.forgeDocIndex()
+			source.indexInES()
+		if (nbMatch > 0):
+			source.setLastQuery(time.strftime("%Y%m%dT%H%M%S%z"))
+			source.forgeDocUpdate()
+			source.update()
+			#the source exists in ES
+			#checking if the source's score in ES and in conf file
+			#are the same, if not, updating in ES
+			if source.score != source.getScoreInES():
+				source.forgeDocUpdateScore()
+				source.update()
+		
+		#retrieving feed's data
+		#Before retrieving feed's data, we have to determine which session to use
+		#by using listSessions[1:] we do not choose the first element which is the default session
+		#in case that the top_level_url contains 'default'
+		for session in listSessions[1:]:
+			if session['sessionName'] in source.source:
+				selectedSession = deepcopy(session)
+			else:
+				#the default session is always the first element in the list
+				selectedSession = listSessions[0]
+		logger.info('Accessing %s with session %s', source.source, selectedSession['sessionName'])
+		
+		try: 
+			raw_page = selectedSession['session'].get(source.source)
+			#requests does not raise exception if status is not 200 by default
+			#that's why we use raise_for_status()
+			raw_page.raise_for_status()
+			
+			the_page = raw_page.text
+			#preparing to index ioc
+			indexIOC = IndexIOC(cfg)
+			indexIOC.forgeDocMappings()
+			indexIOC.create()
+
+			#parsing feed's data
+			#the line does not begin with '#' nor '/'
+			toRead = itertools.ifilter(lambda x: len(x) > 1 and x[0] != '#' and x[0] != '/', the_page.splitlines()[source.getSplitlinesFrom():])
+			
+			#Can not use source.delimiter as delimiter when it equals to '\t'
+			#has to use dialect 'excel-tab'
+			#Apparently, this is due to ConfigParser
+			if source.delimiter != '\\t':
+				reader = csv.DictReader(toRead, source.fields, source.extraFields, delimiter = source.delimiter)
+			
+			if source.delimiter == '\\t':
+				reader = csv.DictReader(toRead, source.fields, source.extraFields, dialect = 'excel-tab')
+			
+			#nb IOCs successfully indexed
+			nbSuccess = 0
+			nbFailed = 0
+
+			#indexing ioc
+			try:
+				for row in reader:
+					IOC = Ioc(cfg, source)
+					IOC.setRawData(row)
+					IOC.processRawData()
+					IOC.forgeDocSearch()
+					try:
+						nbMatch = IOC.search()
+						if (nbMatch == 0):
+							IOC.setFirstAppearance(time.strftime("%Y%m%dT%H%M%S%z"))
+							IOC.setLastAppearance(time.strftime("%Y%m%dT%H%M%S%z"))
+							IOC.forgeDocIndex()
+							IOC.indexInES()
+							#creating index new
+							indexNew = IndexNew()
+							indexNew.forgeDocMappings()
+							indexNew.create()
+							#NewIoc(originalId, coreIntelligence (ioc type), ioc)
+							#docIndex looks like:
+							#{'coreIntelligence': u'ip',
+							#'date': '20160222T232924+0100',
+							#'firstAppearance': '20160222T232924+0100',
+							#'idSource': u'AVMLGcnf_ZaSkMv12Mbj',
+							#u'ip': '95.173.183.223',
+							#'lastAppearance': '20160222T232924+0100',
+							#'source': u'abuseFree_feodotrackerIP'}
+							newIoc = NewIoc(IOC.idES, IOC.coreIntelligence, IOC.docIndex[IOC.coreIntelligence])
+							newIoc.forgeDocIndex()
+							newIoc.indexInES()
+						if (nbMatch > 0):
+							IOC.setLastAppearance(time.strftime("%Y%m%dT%H%M%S%z"))
+							IOC.forgeDocUpdate()
+							IOC.update()
+						nbSuccess += 1
+					except Exception as e:
+						logger.error('Indexing IOC failed')
+						logger.info(source.source)
+						logger.info(IOC.rawData)
+						logger.info(IOC.docSearch)
+						logger.info(IOC.docUpdate)
+						logger.error(e)
+						processResult[confName]['error'].append(str(e))
+						logger.error(traceback.format_exc())
+						nbFailed += 1
+			except Exception as e:
+				logger.error('Indexing IOC failed, no idea where it came from..')
+				logger.error(e)
+				processResult[confName]['error'].append(str(e))
+				logger.info(source.source)
+				logger.info(IOC.rawData)
+				logger.info(IOC.docIndex)
+				logger.info(IOC.docSearch)
+				logger.error(traceback.format_exc())
+				nbFailed += 1
+
+			processResult[confName]['nbIndexed'] = nbSuccess
+			processResult[confName]['nbFailed'] = nbFailed
+		except requests.exceptions.RequestException as e:
+			logger.error('Retrieving feed failed: %s', source.source)
+			logger.error(e)
+			processResult[confName]['error'].append(str(e))
+	except NoOptionError, NoSectionError:
+		logger.error('Bad Configuration file, exiting')
+		logger.info(cfgPath)
+		logger.error(traceback.format_exc())
+		processResult[confName]['error'].append('NoOption/SectionError')
+	return processResult
+
+def createSessions(authCfgPath):
+	cfg = ConfigParser()
+	cfg.read(authCfgPath)
+	
+	listSessions = list()
+	element = dict()
+	
+	'''
+	a session is represented by a JSON object named element:
+		{
+			'sessionName': '<top_level_url>',
+			'session': objectSession
+		}
+	this JSON object is then put into a list: listSessions
+
+	[
+		{
+			'session': <requests.sessions.Session object at 0x7f388408b810>,
+			'sessionName': 'default'
+		},
+		{
+			'session': <requests.sessions.Session object at 0x7f38865c1f90>,
+			'sessionName': u'https://top_level_url.foo'
+		}
+	] 
+	'''	
+
+	#create default session element
+	element['sessionName'] = 'default'
+	element['session'] = requests.Session()
+	#adding the default session element to the listSessions
+	#deepcopy is used because we need a complete copy and not a reference
+	listSessions.append(deepcopy(element))
+	
+	#creating session for each top_level_url to be authenticated
+	#each section is the top_level_url
+	for section in cfg.sections():
+
+		# retrieving username and password from conf file
+		username = cfg.get(section, 'username')
+		password = cfg.get(section, 'password')
+		
+		#naming the session with the top_level_url
+		element['sessionName'] = section
+		element['session'] = requests.Session()
+		#authenticating the session
+		element['session'].auth=(username, password)
+
+		logger.info('Authenticated session created for: %s', section)
+
+		#adding the new session element to the list
+		listSessions.append(deepcopy(element))
+		
+	return listSessions
+		
+
+def main():
+	logger = defineLogger('app.shadowbook', logPath)
+	logger.info('shadowBook.main launched')
+	
+	logger.info('Creating authentificated sessions')
+	authCfgPath = confPath + 'auth/auth.conf'
+	listSessions = createSessions(authCfgPath)
+	logger.info('All sessions created')
+
+	#processIoc needs 2 parameters:
+	#	* the conf path
+	#	* the listSessions
+	#processIoc is launched in a multithreaded way
+	#However pool.map does not handle multiple arguments
+	#we use functools.partial to bypass this limitation
+
+	
+	pool_size = multiprocessing.cpu_count() * nbThreadPerCPU
+	pool = ThreadPool(processes=pool_size)
+	queue = multiprocessing.Queue()
+	
+	#response resuming the process
+	response = dict()
+	argInputs = list()
+	feedsPath = confPath + 'feeds/'
+	for cfgFile in os.listdir(feedsPath):
+		cfgPath = os.path.join(feedsPath, cfgFile)
+		argInputs.append(cfgPath)
+	logger.info('starting processIoc with several processes')
+	
+	func = partial(processIoc, listSessions)
+	try:	
+		queue.put(pool.map(func, argInputs))
+		
+		for element in queue.get():
+			response.update(element)
+		pool.close()
+		pool.join()
+	except Exception as e:
+		logger.error(e)
+		logger.error(traceback.print_exc())
+	
+	logger.info('shadowbook pool closed an joined')
+	return response
+
+if __name__ == '__main__':
+	main()

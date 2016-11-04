@@ -1,0 +1,45 @@
+<div class="row">
+	<div class="col-md-12 text-center">
+		<img src="images/hippocampe-small.png" alt="Hippocampe" height="200" style="padding-bottom: 20px;"></img>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<div class = "panel panel-default">
+			<div class = "panel-heading">
+				Size By Type
+			</div>
+
+			<div class = "panel-body">
+				<div ui-view="sizeByType"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<div class = "panel panel-default">
+			<div class = "panel-heading">
+				Size By Source
+			</div>
+
+			<div class = "panel-body">
+				<div ui-view="sizeBySource"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class = "panel panel-default">
+			<div class = "panel-heading">
+				Monitor Sources
+			</div>
+
+			<div class = "panel-body">
+				<div class="container-fluid" ui-view="monitor"></div>
+			</div>
+		</div>
+	</div>		
+</div>

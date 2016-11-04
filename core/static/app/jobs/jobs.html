@@ -1,0 +1,53 @@
+<div class = "panel panel-default">
+    <div class = "panel-heading">
+        Jobs Supervision
+    </div>
+
+    <div class = "panel-body">
+        <uib-accordion close-others="False">
+            <div ng-repeat='reportMetadataLvlOne in metadataRoot | toArray | orderBy:"-startTime"'>
+                <uib-accordion-group heading="{{reportMetadataLvlOne.id}}">
+
+                    <uib-accordion-group heading="Job's meta-data">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Job id</th>
+                                    <th ng-repeat="columnNameM in metadataColumnNames">{{columnNameM}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <td>{{reportMetadataLvlOne.id}}</td>
+                                <td>{{reportMetadataLvlOne.duration}}</td>
+                                <td>{{reportMetadataLvlOne.endTime}}</td>
+                                <td>{{reportMetadataLvlOne.startTime}}</td>
+                                <td>{{reportMetadataLvlOne.status}}</td>                                                          
+                            </tbody>
+                        </table>
+                    </uib-accordion-group>
+
+                    <uib-accordion-group heading="Job's details">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Conf Filename</th>
+                                    <th ng-repeat="columnNameR in reportColumnNames">{{columnNameR}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(confFileName, reportConf) in reportRoot[reportMetadataLvlOne.id]">
+                                    <td>{{confFileName}}</td>
+                                    <td ng-repeat="valueInReportConf in reportConf">{{valueInReportConf}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </uib-accordion-group>
+                </uib-accordion-group>
+            </div>
+<!-- <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false"></uib-pagination>
+TO DO: use https://github.com/michaelbromley/angularUtils/tree/master/src/directives/pagination instead
+-->
+        </uib-accordion>
+    </div>
+</div>

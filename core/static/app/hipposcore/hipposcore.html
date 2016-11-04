@@ -1,0 +1,20 @@
+<form ng-submit="hipposcore()" ng-controller="HipposcoreCtrl" class="navbar-form navbar-left" role="search">
+	<div class="btn-group" uib-dropdown is-open="status.isopen">
+        <button id="single-button-more" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">
+        {{selectedType}}
+        <span data-bind="label"></span>&nbsp;<span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+            <li ng-repeat="type in listTypes" role="menuitem">
+                <a ng-click='selectTypeHipposcore(type)'>{{type}}</a>
+            </li>         
+        </ul>
+    </div>
+	<div class="form-group">
+		<input type="text" ng-model="textValue" class="form-control" placeholder="Search">
+	</div>
+	<button type="submit" class="btn btn-default">Hipposcore</button>
+
+	<!-- <div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" dismiss-on-timeout="15000">{{alert.msg}}</div> -->
+  
+</form>

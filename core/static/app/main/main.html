@@ -1,0 +1,35 @@
+<div class="row">
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" style="margin-top: -16px">
+					<img src="images/hippocampe-horizontal-bright.png" alt="Hippocampe" height="51"></img>
+				</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a ui-sref="main.home">Home</a></li>
+					<li><a ui-sref="main.more">more</a></li>
+					<li><a ui-sref="main.jobs">jobs</a></li>
+					<li><a ui-sref="main.sources">sources</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="container-fluid" ui-view="hipposcore" style="margin-right: -50px"></li>
+					<li class="container-fluid" ui-view="shadowbook" style="margin-right: -35px"></li>
+				</ul>
+
+			</div>
+		</div>
+	</nav>
+</div>
+
+<div class="container-fluid" ui-view></div>

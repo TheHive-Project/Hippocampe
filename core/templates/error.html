@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hippocampe</title>
+		<link rel="stylesheet" href="css/bootstrap.min.css" media= "screen" title="no title" charset="utf-8">
+		<script src="bower_components/angular/angular.js" charset="utf-8"></script>
+		<script src="bower_components/angular-bootstrap/ui-bootstrap.js" charset="utf-8"></script>
+		<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js" charset="utf-8"></script>
+
+		<!-- CSS -->	
+		<style type="text/css">
+			html, 
+			body {
+				height: 100%;
+			}
+
+			body {
+				background-image: url(images/hippocampe-logo.png);
+				background-repeat: no-repeat;
+				background-size: contain;
+				background-position: center; 
+			}
+		</style>
+
+	</head>
+	<body ng-app='error' ng-controller='ErrorCtrl'>
+		{% raw %}
+			<div uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</div>
+		{% endraw %}
+		<script>
+			var error = angular.module('error', ['ui.bootstrap']);
+			error.controller('ErrorCtrl', function($scope) {
+				$scope.alerts = [
+					{type: 'danger', msg: 'Elasticsearch server not reachable'}
+				];
+
+				$scope.closeAlert = function(index) {
+    				$scope.alerts.splice(index, 1);
+				};
+			});
+		</script>
+	</body>
+</html>
+

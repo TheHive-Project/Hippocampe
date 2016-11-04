@@ -1,0 +1,22 @@
+<div class = "panel panel-default">
+    <div class = "panel-heading">
+      Available Sources
+    </div>
+   
+    <div class = "panel-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>URL</th>
+                        <th ng-repeat="columnName in columnNames">{{columnName}}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(url, report) in reportSources">
+                    <td>{{url}}</td>
+                        <td ng-repeat="(columnName, value) in report">{{value}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
