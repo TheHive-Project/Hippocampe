@@ -1,5 +1,4 @@
 #@see The GNU Public License (GPL)
-#
 #This file is part of Hippocampe.
 #
 #Hippocampe is free software; you can redistribute it and/or modify
