@@ -36,6 +36,11 @@ threadpool.search.type: cached
 
 ##Installation
 * Clone or download the project
+* Install the web dependencies with bower (https://bower.io/)
+```
+cd Hippocampe/core/static
+bower install
+```
 * Start elasticsearch
 ```
 service elasticsearch start
