@@ -54,7 +54,10 @@ By default, Hippocampe is listening on port 5000.
 ##docker
 If you just want to give it a try, you may want to use Hippocampe inside a docker:
 
-+ Launch ```Hippocampe/packaging/build.sh```
-+ Launch ```Hippocampe/packaging/run.sh```
+```
+cd Hippocampe/core
+docker build -t hippocampe .
+docker run -p 5000:5000 hippocampe 
+```
 
 Now Hippocampe is available on port 5000 and runs inside a docker. 
