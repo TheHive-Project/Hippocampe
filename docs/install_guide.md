@@ -35,6 +35,11 @@ threadpool.search.queue_size: 10000
 threadpool.search.type: cached
 ```
 
+If elasticsearch and Hippocampe are on the same host, it might be a good idea to restrict the access to elasticsearch to localhost only in ```/etc/elasticsearch/elasticsearch.yml```:
+```
+network.host: 127.0.0.1
+```
+
 ##Installation
 * Clone or download the project
 * Install the web dependencies with bower (https://bower.io/)
