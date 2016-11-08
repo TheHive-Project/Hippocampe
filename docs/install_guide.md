@@ -17,9 +17,10 @@ Hippocampe needs some external tools to work, you will find below the list of re
     + flask
     + python-dateutil
     + apscheduler
+    + requests
 
 ```
-pip install elasticsearch Configparser netaddr flask python-dateutil apscheduler
+pip install elasticsearch Configparser netaddr flask python-dateutil apscheduler requests
 ```
 
 ##Configuration
