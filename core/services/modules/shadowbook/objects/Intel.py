@@ -54,7 +54,7 @@ class Intel(ObjToIndex):
 				newIntel = NewIntel(self.coreIntelligence, self.dictData[self.coreIntelligence])
 				#indexing the new intel in the index/type hippocampe/new
 				newIntel.indexNewIntel()
-					
+
 	def bigSearch(self):
 		self.es.indices.refresh(index = self.indexNameES)
 		#searching in the index hippocampe
@@ -73,19 +73,22 @@ class Intel(ObjToIndex):
 					"must": [
 						{
 							"match": {
-								self.coreIntelligence : self.dictData[self.coreIntelligence] 
+								self.coreIntelligence : self.dictData[self.coreIntelligence]
 							}
 						}
 					]
 				}
 			}
 		}
-	
+
 	def forgeDocUpdate(self):
 		self.docUpdate = {
-			"script": "ctx._source.lastAppearance = lastAppearance",
-			"params": {
-				"lastAppearance": self.lastAppearance
+			"script": {
+				"lang": "painless",
+				"inline": "ctx._source.lastAppearance = params.lastAppearance",
+				"params": {
+					"lastAppearance": self.lastAppearance
+				}
 			}
 		}
 

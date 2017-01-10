@@ -56,16 +56,19 @@ class Job(ObjToIndex):
 		    "startTime": strftime("%Y%m%dT%H%M%S%z"),
 
 		}
-	
+
 	def forgeDocUpdateJob(self):
 		self.docUpdate = {
-		    "script": "ctx._source.status = status; ctx._source.endTime = endTime; ctx._source.duration = duration; ctx._source.report=report",
-		    "params": {
-		        "status": self.status,
-		        "endTime": self.endTime,
-		        "duration": self.duration,
-		        "report": self.report,
-		    }
+		    "script": {
+				"lang": "painless",
+				"inline": "ctx._source.status = params.status; ctx._source.endTime = params.endTime; ctx._source.duration = params.duration; ctx._source.report = params.report",
+		    	"params": {
+		        	"status": self.status,
+		        	"endTime": self.endTime,
+		        	"duration": self.duration,
+		        	"report": self.report,
+		    	}
+			}
 		}
 
 	def searchOngoingJob(self):
