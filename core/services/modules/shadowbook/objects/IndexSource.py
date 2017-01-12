@@ -15,7 +15,7 @@ from getConf import getHippoConf
 
 class IndexSource(Index):
 	"""
-		IndexIOC class represents an elasticsearch's index. And more precisely 
+		IndexIOC class represents an elasticsearch's index. And more precisely
 		an index storing source.
 
 		The class inherits from Index class.
@@ -33,7 +33,7 @@ class IndexSource(Index):
 		super(IndexSource, self).__init__()
 		self.indexNameES = conf.get('elasticsearch', 'indexNameES')
 		self.typeNameES = conf.get('elasticsearch', 'typeNameESSource')
-	
+
 
 	def forgeDocMapping(self):
 		"""
@@ -42,16 +42,16 @@ class IndexSource(Index):
 		self.docMapping = {
 		        self.typeNameES: {
 		            "properties": {
-				"lastStatus": {
-					"type": "string",
-					"index": "not_analyzed"
-				},
+						"lastStatus": {
+							"type": "keyword",
+							"index": "not_analyzed"
+						},
 		                "link": {
-		                    "type": "string",
+		                    "type": "keyword",
 		                    "index": "not_analyzed"
 		                },
 		                "type": {
-		                    "type": "string",
+		                    "type": "keyword",
 		                    "index": "not_analyzed"
 		                },
 		                "firstQuery": {
@@ -63,13 +63,13 @@ class IndexSource(Index):
 		                    "format": "basic_date_time_no_millis"
 		                },
 		                "description": {
-		                    "type": "string"
+		                    "type": "text"
 		                },
 		                "score": {
 		                    "type": "integer"
 		                },
 		                "coreIntelligence": {
-		                    "type": "string"
+		                    "type": "keyword"
 		                }
 		            }
 		        }
