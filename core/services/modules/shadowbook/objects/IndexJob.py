@@ -15,7 +15,7 @@ import logging
 logger = logging.getLogger(__name__)
 class IndexJob(Index):
 	"""
-		IndexIOC class represents an elasticsearch's index. And more precisely 
+		IndexIOC class represents an elasticsearch's index. And more precisely
 		an index storing IOC.
 
 		The class inherits from Index class.
@@ -48,7 +48,7 @@ class IndexJob(Index):
 #						"index": "not_analyzed"
 #					},
 					"status": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
 					},
 					"startTime": {
@@ -61,7 +61,7 @@ class IndexJob(Index):
 					},
 					"duration": {
 						"type": "float"
-					}				 
+					}
 				}
 			}
 		}
