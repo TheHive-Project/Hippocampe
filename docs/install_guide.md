@@ -10,7 +10,7 @@ Check also the [tutorial](tutorial.md) for more details.
 Hippocampe needs some external tools to work, you will find below the list of requirements:
 
 + JAVA (either [Oracle](http://www.webupd8.org/2014/03/oracle-java-8-stable-released-install.html) or [openJDK](http://openjdk.java.net/install/index.html), however we have noticed better performance with oracle)
-+ [Elasticsearch **1.7**](https://www.elastic.co/guide/en/elasticsearch/reference/1.7/setup-repositories.html)
++ [Elasticsearch **5.1**](https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html)
  + Some python libraries:
     + elasticsearch
     + Configparser
@@ -25,20 +25,7 @@ pip install elasticsearch Configparser netaddr flask python-dateutil apscheduler
 
 ##Configuration
 
-Make sure in your elasticsearch's configuration (```/etc/elasticsearch/elasticsearch.yml```) to enable script & caching by adding the following lines:  
-```
-script.inline: on
-script.indexed: on
-threadpool.search.type: fixed
-threadpool.search.size: 20
-threadpool.search.queue_size: 10000
-threadpool.search.type: cached
-```
-
-If elasticsearch and Hippocampe are on the same host, it might be a good idea to restrict the access to elasticsearch to localhost only in ```/etc/elasticsearch/elasticsearch.yml```:
-```
-network.host: 127.0.0.1
-```
+The default Elasticsearch 5.1's configuration is enough to make Hippocampe works.
 
 ##Installation
 * Clone or download the project
@@ -52,7 +39,7 @@ bower install
 service elasticsearch start
 ```
 * run app.py script   
-``` 
+```
 python Hippocampe/core/app.py
 ```
 By default, Hippocampe is listening on port 5000.
@@ -63,7 +50,7 @@ If you just want to give it a try, you may want to use Hippocampe inside a docke
 ```
 cd Hippocampe/core
 docker build -t hippocampe .
-docker run -p 5000:5000 hippocampe 
+docker run -p 5000:5000 hippocampe
 ```
 
-Now Hippocampe is available on port 5000 and runs inside a docker. 
+Now Hippocampe is available on port 5000 and runs inside a docker.

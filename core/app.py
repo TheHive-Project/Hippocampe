@@ -379,6 +379,9 @@ if __name__ == '__main__':
 		#log format as: 2013-03-08 11:37:31,411 :: WARNING :: Testing foo
 		formatter = logging.Formatter('%(asctime)s :: %(name)s :: %(levelname)s :: %(message)s')
 		#handler writes into , limited to 1Mo in append mode
+		if not os.path.exists('logs'):
+			#create logs directory if does not exist (tipically at first start)
+			os.makedirs('logs')
 		pathLog = app_dir + '/logs/hippocampe.log'
 		file_handler = RotatingFileHandler(pathLog, 'a', 1000000, 1)
 		#level debug

@@ -16,7 +16,7 @@ from itertools import izip_longest
 import ast
 class IndexIntel(Index):
 	"""
-		IndexIOC class represents an elasticsearch's index. And more precisely 
+		IndexIOC class represents an elasticsearch's index. And more precisely
 		an index storing IOC.
 
 		The class inherits from Index class.
@@ -45,10 +45,10 @@ class IndexIntel(Index):
 		def listToDict(inputList):
 			"""
 			Little function that converts a list into a dict.
-			
+
 			This function is needed because ConfigParser.items() returns all options
 			from a given section as a list. A dict is more user-freindly to use.
-			
+
 			:param inputList: list to be converted into dict
 			:type inputList: list
 			:return: the list converted as a dict
@@ -60,7 +60,7 @@ class IndexIntel(Index):
 				for nameIoc, value in tmpDict.items():
 					dictOutput[nameIoc] = value
 			return dictOutput
-		
+
 		#items retrieve all options from 'intel' section, but as a list.
 		#the list is converted to a dict
 		listMapping = self.conf.items('intel')
@@ -88,16 +88,16 @@ class IndexIntel(Index):
 						"format": "basic_date_time_no_millis"
 					},
 					"idSource": {
-						"type": "string"
+						"type": "keyword"
 					},
 					"lastAppearance": {
 						"type": "date",
 						"format": "basic_date_time_no_millis"
 					},
 					"source": {
-						"type": "string",
+						"type": "keyword",
 						"index": "not_analyzed"
-					}				 
+					}
 				}
 			}
 		}

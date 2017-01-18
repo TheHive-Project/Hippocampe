@@ -91,23 +91,29 @@ class Source(ObjToIndex):
 		    "score": self.score,
 		    "coreIntelligence": self.coreIntelligence
 		}
-	
+
 	def forgeDocUpdateLastQuery(self):
 		"""
 			Forges the update query to update source in elasticsearch.
 		"""
 		self.docUpdate = {
-		    "script": "ctx._source.lastQuery = lastQuery",
-		    "params": {
-		        "lastQuery": self.lastQuery
-		    }
+		    "script": {
+				"lang": "painless",
+				"inline": "ctx._source.lastQuery = params.lastQuery",
+		    	"params": {
+		        	"lastQuery": self.lastQuery
+		    	}
+			}
 		}
 
 	def forgeDocUpdateScore(self):
 		self.docUpdate = {
-			"script": "ctx._source.score = score",
-			"params": {
-				"score": self.score
+			"script": {
+				"lang": "painless",
+				"inline": "ctx._source.score = params.score",
+				"params": {
+					"score": self.score
+				}
 			}
 		}
 
@@ -123,7 +129,7 @@ class Source(ObjToIndex):
 		#creating the index only if does not already exist
 		#the method will check by itself
 		indexSource.createIndexSource()
-		
+
 		#first, searching if the source exists before indexing it
 		self.forgeDocSearch()
 		nbMatch = self.search()
