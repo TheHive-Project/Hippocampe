@@ -9,6 +9,28 @@ import os
 import logging
 from logging.handlers import RotatingFileHandler
 import threading
+
+app_dir = os.path.dirname(os.path.abspath(__file__))
+
+#create logger
+logger = logging.getLogger('services')
+if not logger.handlers:
+	logger.setLevel(logging.DEBUG)
+	#log format as: 2013-03-08 11:37:31,411 :: WARNING :: Testing foo
+	formatter = logging.Formatter('%(asctime)s :: %(name)s :: %(levelname)s :: %(message)s')
+	#handler writes into , limited to 1Mo in append mode
+	if not os.path.exists('logs'):
+		#create logs directory if does not exist (tipically at first start)
+		os.makedirs('logs')
+	pathLog = app_dir + '/logs/hippocampe.log'
+	file_handler = RotatingFileHandler(pathLog, 'a', 1000000, 1)
+	#level debug
+	file_handler.setLevel(logging.DEBUG)
+	#using the format defined earlier
+	file_handler.setFormatter(formatter)
+	#Adding the file handler
+	logger.addHandler(file_handler)
+
 app = Flask(__name__, static_url_path='')
 @app.route('/hippocampe/api/v1.0/more', methods=['POST'])
 def moreService():
@@ -359,7 +381,6 @@ def index():
 		return render_template('index.html')
 
 if __name__ == '__main__':
-	app_dir = os.path.dirname(os.path.abspath(__file__))
 
 	##accessing Werkzeug’s logger and writing logs to file
 	##snippet from https://docstrings.wordpress.com/2014/04/19/flask-access-log-write-requests-to-file/
@@ -371,30 +392,6 @@ if __name__ == '__main__':
 	## Also add the handler to Flask's logger for cases
 	##  where Werkzeug isn't used as the underlying WSGI server.
 	#app.logger.addHandler(handlerWerkzeug)
-
- 	#create logger
-	logger = logging.getLogger('services')
-	if not logger.handlers:
-		logger.setLevel(logging.DEBUG)
-		#log format as: 2013-03-08 11:37:31,411 :: WARNING :: Testing foo
-		formatter = logging.Formatter('%(asctime)s :: %(name)s :: %(levelname)s :: %(message)s')
-		#handler writes into , limited to 1Mo in append mode
-		if not os.path.exists('logs'):
-			#create logs directory if does not exist (tipically at first start)
-			os.makedirs('logs')
-		pathLog = app_dir + '/logs/hippocampe.log'
-		file_handler = RotatingFileHandler(pathLog, 'a', 1000000, 1)
-		#level debug
-		file_handler.setLevel(logging.DEBUG)
-		#using the format defined earlier
-		file_handler.setFormatter(formatter)
-		#Adding the file handler
-		logger.addHandler(file_handler)
-
-        	#handler to print out logs in shell
-        	#steam_handler = logging.StreamHandler()
-        	#steam_handler.setLevel(logging.DEBUG)
-        	#logger.addHandler(steam_handler)
 
 	#loading general configuration file
 	cfg = getHippoConf()
