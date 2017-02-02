@@ -4,7 +4,7 @@
 
 **Hippocampe** is a threat feed aggregator. It gives your organisation a threat feed 'memory' and lets you query it easily through a REST API or from a Web UI. If you have a [Cortex](https://github.com/CERT-BDF/Cortex) server, there's already an analyzer to query Hippocampe. And if you use [TheHive](https://github.com/CERT-BDF/TheHive) as a security incident response platform, you can customize the JSON output produced by the analyzer to your taste or use the report template that we kindly provide.
 
-Hippocampe aggregates feeds from the Internet in an Elasticsearch cluster. It has a REST API which allows to search into its "memory". It is based on a Python script which fetchs URLs corresponding to feeds, parses and indexes them.
+Hippocampe aggregates feeds from the Internet in an Elasticsearch cluster. It has a REST API which allows to search into its 'memory'. It is based on a Python script which fetchs URLs corresponding to feeds, parses and indexes them.
 
 # Hipposcore
 Hippocampe allows analysts to configure a confidence level for each feed that can be changed overtime and when queried, it will provide a score called Hipposcore that will aid the analyst decide whether the analyzed observables are innocuous or rather malicious.
