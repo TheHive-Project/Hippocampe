@@ -7,7 +7,7 @@
 Hippocampe aggregates feeds from the Internet in an Elasticsearch cluster. It has a REST API which allows to search into its 'memory'. It is based on a Python script which fetchs URLs corresponding to feeds, parses and indexes them.
 
 # Hipposcore
-Hippocampe allows analysts to configure a confidence level for each feed that can be changed overtime and when queried, it will provide a score called Hipposcore that will aid the analyst decide whether the analyzed observables are innocuous or rather malicious.
+Hippocampe allows analysts to configure a confidence level for each feed that can be changed over time and when queried, it will provide a score called Hipposcore that will aid the analyst decide whether the analyzed observables are innocuous or rather malicious.
 
 # License
 Hippocampe is an open source and free software released under the [AGPL](https://github.com/CERT-BDF/Cortex/blob/master/LICENSE) (Affero General Public License). We, TheHive Project, are committed to ensure that Hippocampe will remain a free and open source project on the long-run.
