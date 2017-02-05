@@ -13,7 +13,7 @@ If you are in a hurry, go directly to the subject you are interrested in:
 + Basic usage:
     + [How to retrieve feeds ?](#how-to-retrieve-feeds)
     + [Did we successfully retrieve feeds ?](#did-we-successfully-retrieve-feeds)
-    + [How to querry Hippocampe ?](#how-to-querry-hippocampe)
+    + [How to query Hippocampe ?](#how-to-query-hippocampe)
     + [How to add a new source ?](#how-to-add-a-new-source)
         + [source](#source)
         + [elasticsearch](#elasticsearch)
@@ -52,7 +52,7 @@ You sucessfully installed *Hippocampe* and launched the api (```python app.py``)
 Now, let's retrieve feeds.
 Just execute an http GET on ```localhost:5000/hippocampe/api/v1.0/shadowbook```.
 
-**Querry**:
+**Query**:
 ```
 curl -XGET localhost:5000/hippocampe/api/v1.0/shadowbook
 
@@ -77,7 +77,7 @@ After a few minutes (depending on your machine and your sources), the job should
 
 GET the following url ```http://localhost:5000/hippocampe/api/v1.0/jobs``` for more details:
 
-**Querry**:
+**Query**:
 ```
 curl -GET http://localhost:5000/hippocampe/api/v1.0/jobs
 ```
@@ -147,7 +147,7 @@ Please note that the ```jobs``` service returns every jobs launched since "*day 
 
 ***
 
-###How to querry Hippocampe ?
+###How to query Hippocampe ?
 
 During your daily analyst work, you encounter 2 ips and 1 url:
 
@@ -158,7 +158,7 @@ During your daily analyst work, you encounter 2 ips and 1 url:
 You suspect them to be malicious.
 Let's query *Hippocampe*, it might have more details:
 
-**Querry**:
+**Query**:
 ```
 curl -i -H "Content-Type: application/json" -X POST -d '
 {
@@ -444,7 +444,7 @@ curl -i -H "Content-Type: application/json" -X POST -d '
 
 Please be aware that: 
 
-+ the scheduling is stored in *memory*, if the API is stopped and started again, another querry has to be sent to schedule jobs
++ the scheduling is stored in *memory*, if the API is stopped and started again, another query has to be sent to schedule jobs
 + yet, there is no way to get the scheduled frequency from the API
     + looking for the string ```job succesfully schedulled as: * */12 * * *``` in the log can be a workaround
 + if a shadowbook job is already running, as a job A, and another one is about to be launched because of *hipposched*, as a job B
