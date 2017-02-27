@@ -108,6 +108,8 @@ If the intel is one year old (```t = 365```), ```n3``` wil be less than ```0.2``
 
 Let's have a look at some interesting value of ```n3``` in time:
 
+|  Example  |  1  |  2  |  3  |
+|  -------  | --- | --- | --- |
 |  t  |  0  |  182.625  |  365  |    
 |  n3  |  1  |  0.37  |  0.13  |    
 
@@ -170,16 +172,13 @@ However, thanks to the absolute value function, we can force ```P``` to be posit
 
 ```k``` act like an amplifier/attenuator. At same value of ```P```, the more negative ```k``` is, the more trust will be subtracted. In the other hand, always at same value of ```P```, the more positive ```k``` is, the less trust will be subtracted:
 
+|  Example  |  1  |  2  |  3  |  4  |  5  |  6  |
+| --------  | --- | --- | --- | --- | --- | --- |
 |  ```|P|```  |  1  |  1  |  1  |  1  |  1  |  1  |     
 |  ```k```  |  1  |  2  |  4  | -1  |  -2  |  -4  |     
 |  ```exp(-k |P|) (trust to be subtracted)```  |  0.37  |  0.14  |  0.02  |  2.7  |  7.4  |  54.6 |     
 
 For your information, we set ```k``` with the value ```2```.
-
-
-
-
-
 
 
 
