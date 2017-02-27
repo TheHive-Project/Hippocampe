@@ -218,7 +218,7 @@ So two uses cases:
 
 * intel is malicious => ```n1``` is negative => P is negative => ```|P| / P = -1```
    * so the Hipposcore is negative
-* intel is not malicious => ```n1``` is negative => P is positive => ```|P| / P = 1```
+* intel is not malicious => ```n1``` is positive => P is positive => ```|P| / P = 1```
    * so the Hipposcore is positive
 
 A negative Hipposcore means it is malicious and the higher the value is and the more confidence we have.   
