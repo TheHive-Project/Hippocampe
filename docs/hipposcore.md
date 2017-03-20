@@ -4,14 +4,14 @@
 
 Hippocampe allows analysts to configure a confidence level for each feed that can be changed over time. When queried, it will provide a score called Hipposcore that will aid the analyst decide whether the analyzed observables are innocuous or rather malicious.
 
-For the record, the hipposcore is between [-100 ; +100].
-If positive, the data scored is likely to be not malicious.
-On the other hand, if negative, it is likely to be malicious.
-In other words, the sign indicates the data's category (malicious / not malicious).
+For the record, the hipposcore is between [-100 ; +100].     
+If positive, the data scored is likely to be not malicious.     
+On the other hand, if negative, it is likely to be malicious.    
+In other words, the sign indicates the data's category (malicious / not malicious).    
 
-The score's value answers the confidence question.
-Higher it tends towards ```-100```, higher the intel is trustworthy to be malicious.
-The other way around, higher it tends to ```+100```, higher the intel is trustworthy to **not** be malicious.
+The score's value answers the confidence question.    
+Higher it tends towards ```-100```, higher the intel is trustworthy to be malicious.    
+The other way around, higher it tends to ```+100```, higher the intel is trustworthy to **not** be malicious.   
 
 ![hipposcore_range](hipposcore_range.png)
 
