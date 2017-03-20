@@ -10,7 +10,7 @@ On the other hand, if negative, it is likely to be malicious.
 In other words, the sign indicates the data's category (malicious / not malicious).
 
 The score's value answers the confidence question.
-Higher it tends towards ```-100``, higher the intel is trustworthy to be malicious.
+Higher it tends towards ```-100```, higher the intel is trustworthy to be malicious.
 The other way around, higher it tends to ```+100```, higher the intel is trustworthy to **not** be malicious.
 
 ![hipposcore_range](hipposcore_range.png)
