@@ -1,11 +1,11 @@
-#Install Guide
+# Install Guide
 
-##Intro
+## Intro
 You will find bellow the installation instructions.
 Don't want to install it ? You can use the docker version instead, check [this](#docker).
 Check also the [tutorial](tutorial.md) for more details.
 
-##Requirements
+## Requirements
 
 Hippocampe needs some external tools to work, you will find below the list of requirements:
 
@@ -23,11 +23,11 @@ Hippocampe needs some external tools to work, you will find below the list of re
 pip install elasticsearch Configparser netaddr flask python-dateutil apscheduler requests
 ```
 
-##Configuration
+## Configuration
 
 The default Elasticsearch 5.1's configuration is enough to make Hippocampe works.
 
-##Installation
+## Installation
 * Clone or download the project
 * Install the web dependencies with bower (https://bower.io/)
 ```
@@ -44,16 +44,29 @@ python Hippocampe/core/app.py
 ```
 By default, Hippocampe is listening on port 5000.
 
-##docker
-If you just want to give it a try, you may want to use Hippocampe inside a docker:
+## Docker
+If you just want to give it a try, you may want to use Hippocampe inside of Docker:
 
 ```
-cd Hippocampe/core
+cd Hippocampe/
 docker build -t hippocampe .
 docker run -p 5000:5000 hippocampe
 ```
 
 Now Hippocampe is available on port 5000 and runs inside a docker.
+
+If you want to spin-up both Elasticsearch and Hippocampe, you can use docker-compose:
+**Note:** If you use this method, you need to edit core/conf/hippo/hippo.conf and change the elasticsearch address to the container name
+```
+[elasticsearch]
+ip : -127.0.0.1- hipposearch
+port : 9200
+```
+```
+cd Hippocampe/
+docker-compose up
+```
+
 
 ##Hippocampe as a service
 
