@@ -56,10 +56,11 @@ docker run -p 5000:5000 hippocampe
 Now Hippocampe is available on port 5000 and runs inside a docker.
 
 If you want to spin-up both Elasticsearch and Hippocampe, you can use docker-compose:
+
 **Note:** If you use this method, you need to edit core/conf/hippo/hippo.conf and change the elasticsearch address to the container name
 ```
 [elasticsearch]
-ip : -127.0.0.1- hipposearch
+ip : hipposearch
 port : 9200
 ```
 ```
