@@ -297,9 +297,9 @@ Bellow how to fill in the source section:
     + ```score : -100```
 + coreIntelligence: *the main intelligence type*
     + ```coreIntelligence : domain```
-+ validityDate: *Optionnal value but the option is requirred, more details in [Activate/desactivate a feed](#Activate/desactivate a feed)*
++ validityDate: *Optional value but the option is required, more details in [Activate/desactivate a feed](#Activate/deactivate a feed)*
     + ```validityDate: ```
-+ useByDate: *Optionnal value but the option is requirred, more details in [Activate/desactivate a feed](#Activate/desactivate a feed)*
++ useByDate: *Optional value but the option is required, more details in [Activate/desactivate a feed](#Activate/deactivate a feed)*
     + ```useByDate: ```
 
 ####elasticsearch
