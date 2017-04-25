@@ -1,11 +1,11 @@
-#Tutorial
+# Tutorial
 
 You will find bellow a "step by step" documentation on "*How to use Hippocampe*".
 
-##Installation
+## Installation
 First make sure you followed the [install guide](install_guide.md) before we get started.
 
-##Use-cases
+## Use-cases
 Now we are ready to go !
 If it is the first time you use *Hippocampe*, just follow the tutorial.
 If you are in a hurry, go directly to the subject you are interrested in:
@@ -45,7 +45,7 @@ If you are in a hurry, go directly to the subject you are interrested in:
 
 ***
 
-##How to retrieve feeds
+## How to retrieve feeds
 
 You sucessfully installed *Hippocampe* and launched the api (```python app.py``). Your elasticsearch server is also on ;-)
 
@@ -71,7 +71,7 @@ The job is now running in background and is indentified by its id: ```AVSQjAYZGL
 
 ***
 
-##Did we successfully retrieve feeds ?
+## Did we successfully retrieve feeds ?
 
 After a few minutes (depending on your machine and your sources), the job should finished.
 
@@ -147,7 +147,7 @@ Please note that the ```jobs``` service returns every jobs launched since "*day 
 
 ***
 
-###How to query Hippocampe ?
+### How to query Hippocampe ?
 
 During your daily analyst work, you encounter 2 ips and 1 url:
 
@@ -205,7 +205,7 @@ The first time this ip appeared in ```feodotracker.abuse.ch``` was on ```2016050
 
 ***
 
-###How to add a new source ?
+### How to add a new source ?
 
 Each source has its configuration file. To add a source, a configuration file needs to be added in ```Hippocampe/core/conf/feeds```.
 
@@ -276,7 +276,7 @@ There are 3 sections:
 + elasticsearch
 + intel
 
-####source
+#### source
 Bellow how to fill in the source section:
 
 + url : *the url where to fetch the source*
@@ -297,12 +297,12 @@ Bellow how to fill in the source section:
     + ```score : -100```
 + coreIntelligence: *the main intelligence type*
     + ```coreIntelligence : domain```
-+ validityDate: *Optionnal value but the option is requirred, more details in [Activate/desactivate a feed](#Activate/desactivate a feed)*
++ validityDate: *Optional value but the option is required, more details in [Activate/desactivate a feed](#Activate/deactivate a feed)*
     + ```validityDate: ```
-+ useByDate: *Optionnal value but the option is requirred, more details in [Activate/desactivate a feed](#Activate/desactivate a feed)*
++ useByDate: *Optional value but the option is required, more details in [Activate/desactivate a feed](#Activate/deactivate a feed)*
     + ```useByDate: ```
 
-####elasticsearch
+#### elasticsearch
 Bellow how to fill in the elasticsearch section:
 
 + typeIntel: the elasticsearch's type under wich intelligences will be indexed```
@@ -360,7 +360,7 @@ More information about date & mapping [here](https://www.elastic.co/guide/en/ela
 
 ***
 
-###How to get more details about your sources ?
+### How to get more details about your sources ?
 Hit the url ```http://localhost:5000/hippocampe/api/v1.0/sources``` with a http GET to retrieve all your sources.
 
 **Query**:
@@ -415,18 +415,18 @@ The values associated to the key are the matadata:
 
 ***
 
-###logs
+### logs
 
 Hippocampe logs are located at ```Hippocampe/core/logs/hippocampe.log```.
 
 ***
 
-###Retrieve feeds automatically and periodically
+### Retrieve feeds automatically and periodically
 
 *Hippocampe* retrieves threat intelligence from internet's feed to index it. This is done through [shadowbook](#shadowbook) service.
 *hipposched* allows to schedule automaticaly the launch of  [shadowbook](#shadowbook), in other words automatic indexation is possible.
 The crontab syntax is used to indicate the job's frequency.
-###Example
+### Example
 + Indexation every 12 hours
 **Query**:
 ```
@@ -452,7 +452,7 @@ Please be aware that:
 
 ***
 
-###Activate or deactivate a feed
+### Activate or deactivate a feed
 
 When shadowbook is launched, feed can be deactivated. In other words, they will not be querried nor processed.
 In the feed's conf file, ```validityDate``` and ```useByDate``` under ```source``` section are used to this purpose.
@@ -480,7 +480,7 @@ With time, the number of sources will increase and you may want to have a global
 
 Hit the ```/hippocampe/api/v1.0/monitorSources``` url to have some interresting metadata about your sources:
 
-###Example
+### Example
 **Query**:
 ```
 curl -GET http://localhost:5000/hippocampe/api/v1.0/monitorSources
@@ -524,7 +524,7 @@ Check [freshness](#freshness) and [schedReport](#schedreport) for more details.
 
 ***
 
-###How to get every distinct value ?
+### How to get every distinct value ?
 
 Somehow,  you may want to get every distinct ip, domain, url, fqdn, etc...
 
@@ -554,7 +554,7 @@ curl -i -H "Content-Type: application/json" -X POST -d '
 
 ***
 
-###New Intelligence
+### New Intelligence
 
 When shadowbook is launched, it indexed intelligence in elasticsearch. If the intelligence is new, in the meaning of never seen before by any of your sources, the intelligence is indexed under the source's type (in elasticsearch vocabulary) and under the type "new".
 
@@ -593,7 +593,7 @@ In ```Hippocampe/core/conf/hippo/hippo.conf``` a threshold can be defined, by de
 threshold : 1
 ```
 If the feed has not been querried within the last day, the service returns "NOK", otherwise it returns "OK".
-#####Example
+##### Example
 **Query**:
 ```
 curl -GET http://localhost:5000/hippocampe/api/v1.0/freshness
@@ -613,10 +613,10 @@ curl -GET http://localhost:5000/hippocampe/api/v1.0/freshness
   }
 ```
 
-####lastQuery
+#### lastQuery
 *lastQuery* returns the last query date for every sources. samedi, 07. mai 2016 03:50 
 he date format is ```"%Y%m%dT%H%M%S%z"```
-#####Example
+##### Example
 **Query**:
 ```
 curl -GET http://localhost:5000/hippocampe/api/v1.0/lastQuery
@@ -633,7 +633,7 @@ curl -GET http://localhost:5000/hippocampe/api/v1.0/lastQuery
 }
 ```
 
-####schedReport
+#### schedReport
 By [retrieveing feeds automatically and periodically](#retrieve-feeds-automatically-and-periodically), indexation can be scheduled.
 If the indexation is scheduled every 12 hours, *schedReport* checks if an indexation has been launched in the last 12 hours. If so, it returns ```OK```, if not it returns ```NOK``` for every sources.
 The threshold is defined in ```Hippocampe/core/conf/hippo/hippo.conf```:
