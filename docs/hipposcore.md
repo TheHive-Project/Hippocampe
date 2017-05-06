@@ -13,23 +13,23 @@ The score's value answers the confidence question.
 Higher it tends towards ```-100```, higher the intel is trustworthy to be malicious.    
 The other way around, higher it tends to ```+100```, higher the intel is trustworthy to **not** be malicious.   
 
-![hipposcore_range](hipposcore_range.png)
+![hipposcore_range](pics/hipposcore_range.png)
 
 The Hipposcore formula is:
 
-![hipposcore](hipposcore.png)
+![hipposcore](pics/hipposcore.png)
 
 The formula is derived from the capacitor's charge formula. It is a product with three parts. We are going to explain each in turn.
 
 ## The percentage
 
-![hipposcore_percentage](hipposcore_percentage.png)
+![hipposcore_percentage](pics/hipposcore_percentage.png)
 
 The easiest part is the third term: ``` * 100 ```. It is used to make the score a percentage.
 
 ## The main part
 
-![hipposcore_main_part](hipposcore_main_part.png)
+![hipposcore_main_part](pics/hipposcore_main_part.png)
 
 The main part is quite difficult to understand.
 
@@ -45,7 +45,7 @@ To answer this question, let's have a look at ```P```.
 
 ### P: source's confidence, time factor and occurrences
 
-![p](p.png)
+![p](pics/p.png)
 
 With:    
 
@@ -86,7 +86,7 @@ From that P is:
 
 As described above, the longer the data is present in the source, the less relevant it is. If the data is too old, ```n3``` must be smaller and have less impact on the overall result. To do so ```n3``` is computed according to the following formula:
 
-![n3](n3.png)
+![n3](pics/n3.png)
 
 Where ```t``` is the data's age.
 
@@ -94,11 +94,11 @@ Where ```t``` is the data's age.
 
 Let's have a look at the function:
 
-![graph1](graph1.png)
+![graph1](pics/graph1.png)
 
 From the graph, the function tends to 0 as the data's age increases.
 
-![graph2](graph2.png)
+![graph2](pics/graph2.png)
 
 If the data is one year old (```t = 365```), ```n3``` wil be less than ```0.2``` but if it is super fresh and has been added today to the feed (```t = 0```) ```n3``` will be at the max value which is 1.
 
@@ -147,7 +147,7 @@ Since the *blind-full confidence* is set to ```1``` we cannot subtract more trus
 
 The variation table below sums up the behavior of ```exp(-k x)```. Please note that the descriptions are in French but this shouldn't prevent you from getting the idea. And to map the table to our use case, assume that ```x``` is equivalent to ```P```.
 
-![variation_table](variation_table.png)
+![variation_table](pics/variation_table.png)
 
 > But we can't force P to be positive. Can we?
 
@@ -167,13 +167,13 @@ For your information, we set ```k``` with the value ```2```.
 
 ## Malicious or not?
 Finally, let's move to the final part:
-![hipposcore_sign](hipposcore_sign.png)
+![hipposcore_sign](pics/hipposcore_sign.png)
 
 Until now, we have just subtracted some 'trust' (based on the confidence we have in the feed, a time factor and the number of occurences of the data across several feeds) from a Hipposcore set at a maximum value (1). But there are no hints on whether or not the data we queried Hippocampe for is malicious or not. This categorization is done through that last part, the sign part.   
 
 Again P is:
 
-![p](p.png)
+![p](pics/p.png)
 
 With:    
 
