@@ -309,7 +309,7 @@ Bellow how to fill in the elasticsearch section:
     + ```typeIntel = malwaredomainsFree_dnsbhDOMAIN```
 
 
-####intel
+#### intel
 For each field in ```fields : ["nextvalidation", "domain", "type", "original_reference-why_it_was_listed"]``` (and for the optional extrafield) an option needs to be created under ```intel``` section.
 The value associated will be the elasticsearch mapping:
 ```
@@ -474,7 +474,7 @@ Five cases are handled by Hippocampe:
 
 ***
 
-###"Monitor" the sources
+### "Monitor" the sources
 
 With time, the number of sources will increase and you may want to have a global vision on them.
 
@@ -580,7 +580,7 @@ curl -GET http://localhost:5000/hippocampe/api/v1.0/new
 
 ***
 
-###Interresting Hippocampe data
+### Interresting Hippocampe data
 
 We previously introduced how to [monitor the sources](#monitor-the-sources). Each data from the monitoring can be retrieve independently:
 
@@ -642,7 +642,7 @@ The threshold is defined in ```Hippocampe/core/conf/hippo/hippo.conf```:
 #in hours 
 threshold: 12
 ```
-#####Example
+##### Example
 **Query**:
 ```
 curl -GET http://localhost:5000/hippocampe/api/v1.0/schedReport
@@ -657,11 +657,11 @@ curl -GET http://localhost:5000/hippocampe/api/v1.0/schedReport
 }
 ```
 
-####sizeBySources
+#### sizeBySources
 
 *sizeBySource* service returns  the size's source (number of element) for every sources.
 
-#####Example
+##### Example
 **Query**:
 ```
 curl -GET http://localhost:5000/hippocampe/api/v1.0/sizeBySources
@@ -679,10 +679,10 @@ curl -GET http://localhost:5000/hippocampe/api/v1.0/sizeBySources
 }
 ```
 
-####sizeByType
+#### sizeByType
 *sizeByType* service returns  the number of element for each observable's type.
 
-#####Example
+##### Example
 **Query**:
 ```
 curl -GET http://localhost:5000/hippocampe/api/v1.0/sizeByType
@@ -704,15 +704,15 @@ curl -GET http://localhost:5000/hippocampe/api/v1.0/sizeByType
 }
 ```
 
-###How to configure Hippocampe ?
+### How to configure Hippocampe ?
 If you use Hippocampe in a docker, please check [this](#docker) first.
 
 The default configuration should be fine, but if you need to change it go to ```Hippocampe/core/conf```.
 
-####auth
+#### auth
 Some feeds are private and need authentification with login/password. Precise the top_level_url and your login/password in  ```Hippocampe/core/conf/auth/auth.conf```
 
-#####Example:
+##### Example:
 ```
 [top_level_url1]
 username: user1
@@ -724,10 +724,10 @@ password : passwd2
 
 ```
 
-####feeds
+#### feeds
 Refer to [How to add a new source ?](#how-to-add-a-new-source).
 
-####hippo
+#### hippo
 
 In  ```Hippocampe/core/conf/hippo/hippo.conf``` you can configure:
 
@@ -767,24 +767,24 @@ threshold: 12
 ```
 ***
 
-###docker
+### docker
 Some information need to be known while using Hippocampe with docker.
 
-####log location
+#### log location
 Hippocampe's logs are located at ```Hippocampe/packaging/volumeHippo/logs/hippocampe.log```.
 
-####elasticsearch files
+#### elasticsearch files
 elasticsearch's files are located at:
 
 + data: ```Hippocampe/packaging/volumeES/data```
 + conf: ```Hippocampe/packaging/volumeES/conf```
 + logs: ```Hippocampe/packaging/volumeES/logs```
 
-####Configuration location
+#### Configuration location
 
 Hippocampe configuration which is applied inside the docker is located at ```Hippocampe/packaging/volumeHippo/conf```. Have a look at [this](#how-to-configure-hippocampe) to fill in the conf.
 
-####Changing port
+#### Changing port
 
 If you would like to change the port used by the API, **do not change it in the ```Hippocampe/packaging/volumeES/conf/hippo/hippo.conf``` file**.
 
