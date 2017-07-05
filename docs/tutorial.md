@@ -459,7 +459,7 @@ In the feed's conf file, ```validityDate``` and ```useByDate``` under ```source`
 
 Five cases are handled by Hippocampe:
 
-![activate_deactivate](activate_deactivate.jpg)
+![activate_deactivate](pics/activate_deactivate.jpg)
 
 + A case
     + Only the validityDate is filled in. Whatever the date is, the feed is always activated.

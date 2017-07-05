@@ -69,7 +69,7 @@ docker-compose up
 ```
 
 
-##Hippocampe as a service
+## Hippocampe as a service
 
 To turn Hippocampe into a service, the uWSGI tool and a NGINX server will be used.
 
@@ -77,20 +77,20 @@ NGINX will host all the web content while uWSGI will execute the python code.
 
 In this example, Hippocampe is located at ```/opt/Hippocampe``` and configuration files for both nginx and uWSGI are located at ```/var/www/demoapp```.
 
-###Install NGINX
+### Install NGINX
 
 ```
 sudo apt-get install nginx
 ```
 
-###Install uWSGI
+### Install uWSGI
 
 ```
 sudo apt-get install build-essential python python-dev
 sudo pip install uwsgi
 ```
 
-###Configuring nginx
+### Configuring nginx
 
 * Delete the default nginx's site
 
@@ -126,7 +126,7 @@ sudo ln -s /var/www/demoapp/hippo_nginx.conf /etc/nginx/conf.d/
 sudo /etc/init.d/nginx restart
 ```
 
-###Configuring uWSGI
+### Configuring uWSGI
 
 * Create the configuration file at ```/var/www/demoapp/demoapp_uwsgi.ini```
 
@@ -173,7 +173,7 @@ sudo chown -R www-data:www-data /var/www/demoapp/
 sudo chown -R www-data:www-data /opt/Hippocampe
 ```
 
-###Turn all stuff into a service with ```systemctl```
+### Turn all stuff into a service with ```systemctl```
 
 * Create the file ```/etc/systemd/system/uwsgi.service```
 
@@ -213,13 +213,13 @@ sudo systemctl daemon-reload
 sudo systemctl start uwsgi
 ```
 
-###Test it
+### Test it
 
 Go to ```http://localhost/hippocampe``` and it should work.
 
 Moreover the API is now expose to port 80.
 
-###Logs path
+### Logs path
 
 * Hippocampe's logs
    * ```Hippocampe/core/logs/hippocampe.log```

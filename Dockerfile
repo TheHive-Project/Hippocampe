@@ -10,7 +10,8 @@ RUN apk add --update --no-cache python \
     py-pip \
     git \
     curl \
-    nodejs
+    nodejs \
+    nodejs-npm
 
 RUN npm install -g bower
 RUN pip install --upgrade pip && \
