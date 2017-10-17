@@ -63,6 +63,7 @@ class IndexSource(Index):
 		                    "format": "basic_date_time_no_millis"
 		                },
 		                "description": {
+                                    "fielddata": True,
 		                    "type": "text"
 		                },
 		                "score": {
