@@ -17,10 +17,11 @@ RUN npm install -g bower
 RUN pip install --upgrade pip && \
     pip install apscheduler \
 	Configparser \
-    elasticsearch \
+	elasticsearch \
 	flask \
 	python-dateutil \
-    requests
+	requests \
+	urllib3
 
 COPY ./core /opt/Hippocampe/core
 COPY docker-entrypoint.sh /
