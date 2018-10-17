@@ -14,9 +14,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 def createSessions():
-	logger.info('createSessions.createSession launched')
-	authConfPath = app_dir + 'conf/auth/auth.conf'
-	cfg = getConf(authConfPath)
+        logger.info('createSessions.createSession launched')
+        authConfPath = app_dir + 'conf/auth/auth.conf'
+        cfg = getConf(authConfPath)
         listSessions = list()
         element = dict()
 
@@ -65,7 +65,7 @@ def createSessions():
 
                 #adding the new session element to the list
                 listSessions.append(deepcopy(element))
-	logger.info('createSessions.createSessions end')
+        logger.info('createSessions.createSessions end')
         return listSessions
 
 if __name__ == '__main__':

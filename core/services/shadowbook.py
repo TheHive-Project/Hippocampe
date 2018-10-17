@@ -39,8 +39,8 @@ def startJob():
         	#However pool.map does not handle multiple arguments
         	#we use functools.partial to bypass this limitation
 		pool_size = cpu_count() * nbThreadPerCPU
-        	pool = ThreadPool(processes=pool_size)
-        	queue = Queue()
+		pool = ThreadPool(processes=pool_size)
+		queue = Queue()
 		
 		#json which reports the result from all feeds
 		reportAllFeeds = dict()

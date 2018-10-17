@@ -48,9 +48,9 @@ class ObjToIndex(object):
 		try:
 			qIndex = self.es.index(index = self.indexNameES, doc_type = self.typeNameES, body = self.docIndex)
 			self.idInES = qIndex['_id']
-		except Exception, e:
-		 	exception_type = e.__class__.__name__
-		 	output = 'index failed: ' + exception_type
+		except Exception as e:
+			exception_type = e.__class__.__name__
+			output = 'index failed: ' + exception_type
 			output = output + '\n' + traceback.format_exc()
 			#self.logger.error(output)
 			#self.logger.info(self.docIndex)
