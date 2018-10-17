@@ -21,7 +21,7 @@ RUN pip install --upgrade pip && \
 	flask \
 	python-dateutil \
 	requests \
-	urllib3
+	urllib3==1.23
 
 COPY ./core /opt/Hippocampe/core
 COPY docker-entrypoint.sh /
