@@ -149,7 +149,7 @@ class Source(ObjToIndex):
 	                #the source exists in ES
                         #checking if the source's score in ES and in conf file
                         #are the same, if not, updating in ES
-                        if self.score != self.getScoreInES():
+			if self.score != self.getScoreInES():
                                 self.forgeDocUpdateScore()
                                 self.update()
 
